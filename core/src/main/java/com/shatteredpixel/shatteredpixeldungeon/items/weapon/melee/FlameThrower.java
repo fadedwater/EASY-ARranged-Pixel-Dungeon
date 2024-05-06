@@ -43,14 +43,14 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.AmmoBelt;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.CorrosionBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.CorrosionBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -66,6 +66,7 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class FlameThrower extends MeleeWeapon {
@@ -137,7 +138,7 @@ public class FlameThrower extends MeleeWeapon {
 
     @Override
     protected void duelistAbility(Hero hero, Integer target) {
-
+        CrudePistol.shootAbility(hero, this);
     }
 
     @Override
@@ -251,7 +252,29 @@ public class FlameThrower extends MeleeWeapon {
 
     @Override
     public String info() {
+
+        max_round = initial_max_round;
+        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }
+        reload_time = 3f * RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = super.info();
+
+        if (levelKnown) {
+            info += "\n\n" + Messages.get(CrudePistol.class, "stats_known",
+                    Bulletmin(this.buffedLvl()),
+                    Bulletmax(this.buffedLvl()),
+                    round, max_round, new DecimalFormat("#.##").format(reload_time));
+        } else {
+            info += "\n\n" + Messages.get(CrudePistol.class, "stats_unknown",
+                    Bulletmin(0),
+                    Bulletmax(0),
+                    round, max_round, new DecimalFormat("#.##").format(reload_time));
+        }
+
+        if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown) {
+            info += "\n\n" + Messages.get(Item.class, "durability_weapon", durability(), maxDurability());
+        }
 
         return info;
     }
@@ -481,7 +504,7 @@ public class FlameThrower extends MeleeWeapon {
             if (target != null) {
                 if (overHeat != null && Random.Float() < AmmoBelt.OverHeat.chance) {
                     usesTargeting = false;
-                    GLog.w(Messages.get(Gun.class, "failed"));
+                    GLog.w(Messages.get(CrudePistol.class, "failed"));
                     curUser.spendAndNext(Actor.TICK);
                 } else {
                     if (target != null) {
