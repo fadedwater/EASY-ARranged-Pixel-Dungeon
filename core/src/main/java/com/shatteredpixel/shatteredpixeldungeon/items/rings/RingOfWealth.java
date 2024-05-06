@@ -138,9 +138,9 @@ public class RingOfWealth extends Ring {
 				//using the two to get substantially more upgrade value than intended
 				for (Wealth w : target.buffs(Wealth.class)){
 					if (w.buffedLvl() > equipBonus){
-						equipBonus = w.buffedLvl() + Math.min(equipBonus, 2);
+						equipBonus = w.buffedLvl() + equipBonus;
 					} else {
-						equipBonus += Math.min(w.buffedLvl(), 2);
+						equipBonus += w.buffedLvl();
 					}
 				}
 
@@ -155,7 +155,12 @@ public class RingOfWealth extends Ring {
 						drops.add(scl);
 					}
 				} else {
-					drops.add(i);
+					if (Random.Float(0,1) <= 0.5) {
+						drops.add(i);
+					}
+					else{
+						drops.add(scl);
+					}
 				}
 				dropsToEquip = Random.NormalIntRange(5, 10);
 				if (Dungeon.isChallenged(Challenges.GAMBLER)) {
