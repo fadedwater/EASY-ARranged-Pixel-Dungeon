@@ -65,7 +65,10 @@ public class NormalKatana extends MeleeWeapon {
     protected void duelistAbility(Hero hero, Integer target) {
         flashSlashAbility(hero, target, 0.5f, this);
     }
-
+    @Override
+    protected int baseChargeUse(Hero hero, Char target){
+        return 2;
+    }
     public static void flashSlashAbility(Hero hero, Integer target, float energy, MeleeWeapon wep){
         if (target == null) {
             return;
@@ -90,13 +93,14 @@ public class NormalKatana extends MeleeWeapon {
             public void call() {
                 wep.beforeAbilityUsed(hero, enemy);
                 AttackIndicator.target(enemy);
-                if (hero.attack(enemy)) {
+                if (hero.attack(enemy, 1,0, Char.INFINITE_ACCURACY)) {
                     Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
                     if (!enemy.isAlive()){
                         wep.onAbilityKill(hero, enemy);
                         Buff.affect(hero, MeleeWeapon.Charger.class).gainCharge(energy);
                     }
                 }
+                Buff.affect(hero, MeleeWeapon.Charger.class).gainCharge(0.5f);
                 Invisibility.dispel();
                 hero.next();
                 wep.afterAbilityUsed(hero);

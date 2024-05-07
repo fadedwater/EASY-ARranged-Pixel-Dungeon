@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
@@ -53,7 +54,10 @@ public class WornKatana_Energy extends EnergyWeapon {
     public int min(int lvl) {
         return  1;
     }
-
+    @Override
+    protected int baseChargeUse(Hero hero, Char target){
+        return 2;
+    }
     @Override
     public String targetingPrompt() {
         return Messages.get(this, "prompt");

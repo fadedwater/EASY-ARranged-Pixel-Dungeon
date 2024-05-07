@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -46,7 +47,10 @@ public class SharpKatana extends MeleeWeapon {
         return  5*(tier+2) +
                 lvl*(tier+2);
     }
-
+    @Override
+    protected int baseChargeUse(Hero hero, Char target){
+        return 2;
+    }
     @Override
     public String targetingPrompt() {
         return Messages.get(this, "prompt");

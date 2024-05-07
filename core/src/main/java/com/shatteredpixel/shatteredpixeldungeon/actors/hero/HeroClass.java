@@ -83,6 +83,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
@@ -331,6 +333,7 @@ public enum HeroClass {
 		ThrowingStone stones = new ThrowingStone();
 		stones.quantity(3).collect();
 		Dungeon.quickslot.setSlot(0, stones);
+		new RingOfWealth().identify().collect();
 
 		if (hero.belongings.armor != null) {
 			hero.belongings.armor.affixSeal(new BrokenSeal());
@@ -353,6 +356,7 @@ public enum HeroClass {
 
 		(hero.belongings.weapon = staff).identify();
 		hero.belongings.weapon.activate(hero);
+		new RingOfWealth().identify().collect();
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();
@@ -375,6 +379,7 @@ public enum HeroClass {
 
 		ThrowingKnife knives = new ThrowingKnife();
 		knives.quantity(3).collect();
+		new RingOfWealth().identify().collect();
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();
@@ -394,6 +399,7 @@ public enum HeroClass {
 		(hero.belongings.weapon = new Gloves()).identify();
 		SpiritBow bow = new SpiritBow();
 		bow.identify().collect();
+		new RingOfWealth().identify().collect();
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();
@@ -414,6 +420,7 @@ public enum HeroClass {
 
 		ThrowingSpike spikes = new ThrowingSpike();
 		spikes.quantity(2).collect();
+		new RingOfWealth().identify().collect();
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();
@@ -431,10 +438,10 @@ public enum HeroClass {
 	private static void initGunner( Hero hero ) {
 		CrudePistol crude = new CrudePistol();
 		(hero.belongings.weapon = crude).identify();
-		//RingOfReload reload = new RingOfReload();
-		//reload.start = true;
-		//(hero.belongings.ring = reload).identify().upgrade(3);
-		//hero.belongings.ring.activate( hero );
+		RingOfReload reload = new RingOfReload();
+		reload.start = true;
+		(hero.belongings.ring = reload).identify().upgrade(3);
+		hero.belongings.ring.activate( hero );
 		AmmoBelt ammoBelt = new AmmoBelt();
 		ammoBelt.collect();
 
@@ -492,6 +499,7 @@ public enum HeroClass {
 		cat.probs[7]--; //removes SandalsOfNature in pool
 		(hero.belongings.artifact = sandals).identify();
 		hero.belongings.artifact.activate(hero);
+		new RingOfWealth().identify().collect();
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();
@@ -521,6 +529,7 @@ public enum HeroClass {
 		ThrowingStone stones = new ThrowingStone();
 		stones.quantity(3).collect();
 		Dungeon.quickslot.setSlot(1, stones);
+		new RingOfWealth().identify().collect();
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();
@@ -548,6 +557,8 @@ public enum HeroClass {
 		HealingDart healingDart = new HealingDart();
 		healingDart.quantity(2).collect();
 		Dungeon.quickslot.setSlot(2, healingDart);
+
+		new RingOfWealth().identify().collect();
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();

@@ -59,14 +59,15 @@ public class RingOfWealth extends Ring {
 
 	private float triesToDrop = Float.MIN_VALUE;
 	private int dropsToRare = Integer.MIN_VALUE;
-	
+
+
 	public String statsInfo() {
 		if (isIdentified()){
 			String info = Messages.get(this, "stats",
-					Messages.decimalFormat("#.##", 100f * (Math.pow(1.20f, soloBuffedBonus()) - 1f)));
+					Messages.decimalFormat("#.##", 100f * (Math.pow(1.40f, soloBuffedBonus()) - 1f)));
 			if (isEquipped(Dungeon.hero) && soloBuffedBonus() != combinedBuffedBonus(Dungeon.hero, Wealth.class)){
 				info += "\n\n" + Messages.get(this, "combined_stats",
-						Messages.decimalFormat("#.##", 100f * (Math.pow(1.20f, combinedBuffedBonus(Dungeon.hero, Wealth.class)) - 1f)));
+						Messages.decimalFormat("#.##", 100f * (Math.pow(1.40f, combinedBuffedBonus(Dungeon.hero, Wealth.class)) - 1f)));
 			}
 			return info;
 		} else {
@@ -92,16 +93,23 @@ public class RingOfWealth extends Ring {
 	}
 
 	@Override
+	public Item upgrade(){
+		super.upgrade();
+		super.upgrade();
+		return this;
+	}
+
+	@Override
 	protected RingBuff buff( ) {
 		return new Wealth();
 	}
 	
 	public static float dropChanceMultiplier( Char target ){
-		return (float)Math.pow(1.20, getBuffedBonus(target, Wealth.class));
+		return (float)Math.pow(1.40, getBuffedBonus(target, Wealth.class));
 	}
 	
 	public static ArrayList<Item> tryForBonusDrop(Char target, int tries ){
-		int bonus = getBuffedBonus(target, Wealth.class);
+		int bonus = getBuffedBonus(target, Wealth.class)*2 + 8;
 
 		if (bonus <= 0) return null;
 		
