@@ -990,7 +990,7 @@ public class MeleeWeapon extends Weapon {
 
 	public static class PrecisionShooting extends Buff {
 
-		public static float HIT_CHARGE_USE = 1f;
+		public static float HIT_CHARGE_USE = 0.5f;
 
 		public boolean onUse = true;
 

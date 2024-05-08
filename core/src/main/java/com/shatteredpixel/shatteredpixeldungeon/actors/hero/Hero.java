@@ -1534,6 +1534,7 @@ public class Hero extends Char {
 			
 			Heap heap = Dungeon.level.heaps.get( pos );
 			if (heap != null) {
+				
 				Item item = heap.peek();
 				if (item.doPickUp( this )) {
 					heap.pickUp();

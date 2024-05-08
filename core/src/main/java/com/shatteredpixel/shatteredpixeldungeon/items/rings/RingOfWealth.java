@@ -60,6 +60,7 @@ public class RingOfWealth extends Ring {
 	private float triesToDrop = Float.MIN_VALUE;
 	private int dropsToRare = Integer.MIN_VALUE;
 
+	public static int BonusLevel = 0;
 
 	public String statsInfo() {
 		if (isIdentified()){
@@ -96,6 +97,7 @@ public class RingOfWealth extends Ring {
 	public Item upgrade(){
 		super.upgrade();
 		super.upgrade();
+		BonusLevel += 2;
 		return this;
 	}
 
@@ -108,8 +110,9 @@ public class RingOfWealth extends Ring {
 		return (float)Math.pow(1.40, getBuffedBonus(target, Wealth.class));
 	}
 	
+
 	public static ArrayList<Item> tryForBonusDrop(Char target, int tries ){
-		int bonus = getBuffedBonus(target, Wealth.class)*2 + 8;
+		int bonus = getBuffedBonus(target, Wealth.class);
 
 		if (bonus <= 0) return null;
 		
@@ -248,13 +251,14 @@ public class RingOfWealth extends Ring {
 					return Generator.randomUsingDefaults(Generator.Category.POTION);
 				case 3:
 					if (Dungeon.isChallenged(Challenges.NO_SCROLLS)) {
-						if (Random.Int(16) == 0) {
+						if (Random.Int(8) == 0) {
 							return new ScrollOfUpgrade();
 						} else {
 							return Generator.randomUsingDefaults(Generator.Category.SCROLL);
 						}
-					} else {
-						if (Random.Int(8) == 0) {
+					} 
+					else {
+						if (Random.Int(4) == 0) {
 							return new ScrollOfUpgrade();
 						} else {
 							return Generator.randomUsingDefaults(Generator.Category.SCROLL);
@@ -288,20 +292,26 @@ public class RingOfWealth extends Ring {
 				i = Generator.randomUsingDefaults(Generator.Category.SCROLL);
 				if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 					if (Dungeon.isChallenged(Challenges.NO_SCROLLS)) {
-						if (Random.Int(8) == 0) {
+						if (Random.Int(6) == 0) {
 							return new ScrollOfUpgrade();
 						} else {
 							return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
 						}
 					} else {
-						if (Random.Int(4) == 0) {
+						if (Random.Int(2) == 0) {
 							return new ScrollOfUpgrade();
 						} else {
 							return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
 						}
 					}
-				} else {
-					return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
+				} 
+				else {
+					if (Random.Int(3) == 0){
+						return new ScrollOfUpgrade();
+					}
+					else{
+						return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
+					}
 				}
 
 			case 3:
@@ -354,8 +364,9 @@ public class RingOfWealth extends Ring {
 						return new ScrollOfUpgrade();
 				}
 			}
-		} else {
-			switch (Random.Int(4)){
+		} 
+		else {
+			switch (Random.Int(5)){
 				case 0: default:
 					Item i = genMidValueConsumable();
 					if (i instanceof Bomb){
@@ -369,6 +380,8 @@ public class RingOfWealth extends Ring {
 					return new PotionOfExperience();
 				case 3:
 					return new ScrollOfTransmutation();
+				case 4:
+					return new ScrollOfUpgrade();
 			}
 		}
 	}
