@@ -67,7 +67,7 @@ public class NormalKatana extends MeleeWeapon {
     }
     @Override
     protected int baseChargeUse(Hero hero, Char target){
-        return 2;
+        return 1;
     }
     public static void flashSlashAbility(Hero hero, Integer target, float energy, MeleeWeapon wep){
         if (target == null) {
@@ -100,7 +100,6 @@ public class NormalKatana extends MeleeWeapon {
                         Buff.affect(hero, MeleeWeapon.Charger.class).gainCharge(energy);
                     }
                 }
-                Buff.affect(hero, MeleeWeapon.Charger.class).gainCharge(0.5f);
                 Invisibility.dispel();
                 hero.next();
                 wep.afterAbilityUsed(hero);

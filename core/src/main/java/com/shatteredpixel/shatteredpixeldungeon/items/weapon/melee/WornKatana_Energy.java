@@ -56,7 +56,7 @@ public class WornKatana_Energy extends EnergyWeapon {
     }
     @Override
     protected int baseChargeUse(Hero hero, Char target){
-        return 2;
+        return 1;
     }
     @Override
     public String targetingPrompt() {

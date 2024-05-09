@@ -1530,58 +1530,65 @@ public class Hero extends Char {
 
 	private boolean actPickUp( HeroAction.PickUp action ) {
 		int dst = action.dst;
+		boolean GonnaSpendTime = false;
 		if (pos == dst) {
 			
 			Heap heap = Dungeon.level.heaps.get( pos );
 			if (heap != null) {
-				
-				Item item = heap.peek();
-				if (item.doPickUp( this )) {
-					heap.pickUp();
+				int Tries = 0;
+				while (!heap.isEmpty() && Tries <= 10) {
+					Tries += 1;
+					Item item = heap.peek();
+					if (item.doPickUp( this )) {
+						heap.pickUp();
 
-					if (item instanceof Dewdrop
-							|| item instanceof TimekeepersHourglass.sandBag
-							|| item instanceof DriedRose.Petal
-							|| item instanceof Key
-							|| item instanceof Guidebook) {
-						//Do Nothing
-					} else {
-
-						//TODO make all unique items important? or just POS / SOU?
-						boolean important = item.unique && item.isIdentified() &&
-								(item instanceof Scroll || item instanceof Potion);
-						if (important) {
-							GLog.p( Messages.capitalize(Messages.get(this, "you_now_have", item.name())) );
+						if (item instanceof Dewdrop
+								|| item instanceof TimekeepersHourglass.sandBag
+								|| item instanceof DriedRose.Petal
+								|| item instanceof Key
+								|| item instanceof Guidebook) {
+							//Do Nothing
 						} else {
-							GLog.i( Messages.capitalize(Messages.get(this, "you_now_have", item.name())) );
+							//TODO make all unique items important? or just POS / SOU?
+							boolean important = item.unique && item.isIdentified() &&
+									(item instanceof Scroll || item instanceof Potion);
+							if (important) {
+								GLog.p( Messages.capitalize(Messages.get(this, "you_now_have", item.name())) );
+							} else {
+								GLog.i( Messages.capitalize(Messages.get(this, "you_now_have", item.name())) );
+							}
 						}
+						GonnaSpendTime = true;
+						curAction = null;
 					}
-					
-					curAction = null;
-				} else {
+					else {
 
-					if (waitOrPickup) {
-						spendAndNextConstant(TIME_TO_REST);
+						if (waitOrPickup) {
+							GonnaSpendTime = true;
+						}
+
+						//allow the hero to move between levels even if they can't collect the item
+						if (Dungeon.level.getTransition(pos) != null){
+							throwItems();
+						} else {
+							heap.sprite.drop();
+						}
+
+						if (item instanceof Dewdrop
+								|| item instanceof TimekeepersHourglass.sandBag
+								|| item instanceof DriedRose.Petal
+								|| item instanceof Key) {
+							//Do Nothing
+						} else {
+							GLog.newLine();
+							GLog.n(Messages.capitalize(Messages.get(this, "you_cant_have", item.name())));
+						}
+
+						ready();
 					}
-
-					//allow the hero to move between levels even if they can't collect the item
-					if (Dungeon.level.getTransition(pos) != null){
-						throwItems();
-					} else {
-						heap.sprite.drop();
-					}
-
-					if (item instanceof Dewdrop
-							|| item instanceof TimekeepersHourglass.sandBag
-							|| item instanceof DriedRose.Petal
-							|| item instanceof Key) {
-						//Do Nothing
-					} else {
-						GLog.newLine();
-						GLog.n(Messages.capitalize(Messages.get(this, "you_cant_have", item.name())));
-					}
-
-					ready();
+				}
+				if (GonnaSpendTime){
+					spendAndNextConstant(TIME_TO_REST);
 				}
 			} else {
 				ready();

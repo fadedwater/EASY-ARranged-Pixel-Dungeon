@@ -546,13 +546,29 @@ public class MeleeWeapon extends Weapon {
 		public boolean act() {
 			if (charges < chargeCap()){
 				if (Regeneration.regenOn()){
-					partialCharge += 1/(40f-(chargeCap()-charges)); // 40 to 30 turns per charge
+					int multi = 1;
+					if (hero.subClass == HeroSubClass.CHAMPION
+						&&hero.belongings.secondWep != null){
+						if (hero.belongings.secondWep.gun
+							&&hero.buffs(PrecisionShooting.class) != null){
+							multi = 2;
+						}
+					}
+					partialCharge += multi/(40f-(chargeCap()-charges)); // 40 to 30 turns per charge
 				}
 
 				int points = ((Hero)target).pointsInTalent(Talent.WEAPON_RECHARGING);
 				if (points > 0 && target.buff(Recharging.class) != null || target.buff(ArtifactRecharge.class) != null){
 					//1 every 10 turns at +1, 6 turns at +2
-					partialCharge += 1/(14f - 4f*points);
+					int multi = 1;
+					if (hero.subClass == HeroSubClass.CHAMPION
+							&&hero.belongings.secondWep != null){
+						if (hero.belongings.secondWep.gun
+								&&hero.buffs(PrecisionShooting.class) != null){
+							multi = 2;
+						}
+					}
+					partialCharge += multi/(14f - 4f*points);
 				}
 
 				if (partialCharge >= 1){
@@ -1009,7 +1025,7 @@ public class MeleeWeapon extends Weapon {
 
 		public int maxHit(){
 			MeleeWeapon.Charger charger = Buff.affect(target, MeleeWeapon.Charger.class);
-			float maxCharges = charger.chargeCap();
+			float maxCharges = charger.chargeCap()/HIT_CHARGE_USE;
 
 			return (int)(maxCharges);
 		}
