@@ -2819,6 +2819,7 @@ public class Hero extends Char {
 		}
 		exp *= expMod;
 
+		this.exp += exp;
 
 		if (exp > 0) Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(Mob.class, "exp", exp));
 		if (buff != null) buff.obtain(Math.round(exp));
