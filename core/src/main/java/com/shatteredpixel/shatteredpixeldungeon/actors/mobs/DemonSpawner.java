@@ -53,7 +53,6 @@ public class DemonSpawner extends Mob {
 		defenseSkill = 0;
 
 		EXP = 15;
-		maxLvl = 29;
 
 		state = PASSIVE;
 

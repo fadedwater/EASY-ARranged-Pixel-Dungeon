@@ -44,7 +44,6 @@ public class Tank extends Mob {
 		defenseSkill = 10;
 
 		EXP = 20;
-		maxLvl = 30;
 		
 		lootChance = 0.1f; //10% drop rate
 

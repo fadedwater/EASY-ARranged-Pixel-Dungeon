@@ -43,7 +43,6 @@ public class SWAT extends Mob {
 		viewDistance = Light.DISTANCE;
 		
 		EXP = 15;
-		maxLvl = 30;
 
 		lootChance = 1;
 	}

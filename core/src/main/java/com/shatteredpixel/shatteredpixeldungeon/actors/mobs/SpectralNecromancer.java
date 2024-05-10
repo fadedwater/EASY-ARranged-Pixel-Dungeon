@@ -60,7 +60,6 @@ public class SpectralNecromancer extends Necromancer {
 
 	@Override
 	public void rollToDropLoot() {
-		if (Dungeon.hero.lvl > maxLvl + 2) return;
 
 		super.rollToDropLoot();
 

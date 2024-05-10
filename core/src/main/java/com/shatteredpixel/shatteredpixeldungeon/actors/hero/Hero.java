@@ -186,6 +186,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CapeOfThorns;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.EtherealChains;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ExpBelt;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
@@ -379,7 +380,7 @@ public class Hero extends Char {
 		alignment = Alignment.ALLY;
 	}
 	
-	public static final int MAX_LEVEL = 30;
+	public static final int MAX_LEVEL = 100;
 
 	public static final int STARTING_STR = 10;
 	
@@ -2808,10 +2809,20 @@ public class Hero extends Char {
 	
 	public void earnExp( int exp, Class source ) {
 
-		//xp granted by ascension challenge is only for on-exp gain effects
-		if (source != AscensionChallenge.class) {
-			this.exp += exp;
+		float expMod = 1f;
+		ExpBelt.ExpObtain buff = Dungeon.hero.buff(ExpBelt.ExpObtain.class);
+		if (buff != null && source != PotionOfExperience.class){
+			expMod += (buff.itemLevel()+1)* (buff.itemLevel() > 100 ? 0.8f: 0.2f);
+			if (buff.isCursed()){
+				expMod = 0f;
+			}
 		}
+		exp *= expMod;
+
+
+		if (exp > 0) Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(Mob.class, "exp", exp));
+		if (buff != null) buff.obtain(Math.round(exp));
+
 		float percent = exp/(float)maxExp();
 
 		EtherealChains.chainsRecharge chains = buff(EtherealChains.chainsRecharge.class);
@@ -2886,6 +2897,13 @@ public class Hero extends Char {
 					StatusPane.talentBlink = 10f;
 					WndHero.lastIdx = 1;
 				}
+				else{
+					if (lvl/5 == Math.round(lvl/5)){
+						STR += 1;
+						GLog.newLine();
+						GLog.p( Messages.get(this, "new_strength") );
+					}
+				}
 			}
 			
 			updateQuickslot();
@@ -2899,7 +2917,7 @@ public class Hero extends Char {
 	}
 	
 	public static int maxExp( int lvl ){
-		return 5 + lvl * 5;
+		return 5 * lvl + lvl * lvl;
 	}
 	
 	public boolean isStarving() {

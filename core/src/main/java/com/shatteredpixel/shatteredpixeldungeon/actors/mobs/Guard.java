@@ -52,7 +52,6 @@ public class Guard extends Mob {
 		defenseSkill = 10;
 
 		EXP = 7;
-		maxLvl = 14;
 
 		loot = Generator.Category.ARMOR;
 		lootChance = 0.2f; //by default, see lootChance()

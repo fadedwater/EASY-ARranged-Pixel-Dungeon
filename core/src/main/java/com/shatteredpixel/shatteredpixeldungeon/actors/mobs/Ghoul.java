@@ -49,7 +49,6 @@ public class Ghoul extends Mob {
 		defenseSkill = 20;
 		
 		EXP = 5;
-		maxLvl = 20;
 		
 		SLEEPING = new Sleeping();
 		WANDERING = new Wandering();

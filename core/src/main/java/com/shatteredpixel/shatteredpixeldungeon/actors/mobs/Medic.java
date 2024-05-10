@@ -53,7 +53,6 @@ public class Medic extends Mob {
 		viewDistance = Light.DISTANCE;
 
 		EXP = 27;
-		maxLvl = 30;
 
 		loot = new PotionOfHealing();
 		lootChance = 0.2f; //see createloot

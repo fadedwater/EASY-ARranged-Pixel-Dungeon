@@ -39,7 +39,6 @@ public class Slime extends Mob {
 		defenseSkill = 5;
 		
 		EXP = 4;
-		maxLvl = 9;
 		
 		lootChance = 0.2f; //by default, see lootChance()
 	}

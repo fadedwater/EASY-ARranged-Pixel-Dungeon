@@ -60,7 +60,6 @@ public class Rebel extends Mob {
 		viewDistance = 10;
 		
 		EXP = 100;
-		maxLvl = 30;
 
 		properties.add(Property.BOSS);
 		immunities.add( Dread.class );

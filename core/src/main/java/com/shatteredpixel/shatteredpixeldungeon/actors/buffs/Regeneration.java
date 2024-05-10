@@ -43,7 +43,8 @@ public class Regeneration extends Buff {
 
 			if (target.HP < regencap() && !((Hero)target).isStarving()) {
 				if (regenOn()) {
-					target.HP += 1;
+					target.HP += 1+Math.round(target.HT/100f);
+					target.HP = Math.min(regencap(),target.HP);
 					if (target.HP == regencap()) {
 						((Hero) target).resting = false;
 					}
@@ -58,7 +59,7 @@ public class Regeneration extends Buff {
 					delay *= 1.5f;
 				} else {
 					//15% boost at +0, scaling to a 500% boost at +10
-					delay -= 1.33f + regenBuff.itemLevel()*0.667f;
+					delay *= (10 - ( 1.33f + regenBuff.itemLevel()*0.667f ));
 					delay /= RingOfEnergy.artifactChargeMultiplier(target);
 				}
 			}

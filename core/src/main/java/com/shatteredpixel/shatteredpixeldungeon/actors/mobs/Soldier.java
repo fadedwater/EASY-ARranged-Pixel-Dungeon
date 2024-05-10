@@ -53,7 +53,6 @@ public class Soldier extends Mob {
 		viewDistance = Light.DISTANCE;
 		
 		EXP = 15;
-		maxLvl = 30;
 		
 		loot = Generator.Category.WEAPON;
 		lootChance = 0.1667f; //by default, see rollToDropLoot()

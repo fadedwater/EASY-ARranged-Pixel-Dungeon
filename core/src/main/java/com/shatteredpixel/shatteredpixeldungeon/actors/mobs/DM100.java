@@ -48,7 +48,6 @@ public class DM100 extends Mob implements Callback {
 		defenseSkill = 8;
 		
 		EXP = 6;
-		maxLvl = 13;
 		
 		loot = Generator.Category.SCROLL;
 		lootChance = 0.25f;

@@ -60,7 +60,6 @@ public class RingOfWealth extends Ring {
 	private float triesToDrop = Float.MIN_VALUE;
 	private int dropsToRare = Integer.MIN_VALUE;
 
-	public static int BonusLevel = 0;
 
 	public String statsInfo() {
 		if (isIdentified()){
@@ -93,13 +92,6 @@ public class RingOfWealth extends Ring {
 		dropsToRare = bundle.getInt(DROPS_TO_RARE);
 	}
 
-	@Override
-	public Item upgrade(){
-		super.upgrade();
-		super.upgrade();
-		BonusLevel += 2;
-		return this;
-	}
 
 	@Override
 	protected RingBuff buff( ) {
@@ -108,6 +100,10 @@ public class RingOfWealth extends Ring {
 	
 	public static float dropChanceMultiplier( Char target ){
 		return (float)Math.pow(1.40, getBuffedBonus(target, Wealth.class));
+	}
+
+	public static float BonusLevel( Char target ){
+		return (int)getBuffedBonus(target, Wealth.class);
 	}
 	
 

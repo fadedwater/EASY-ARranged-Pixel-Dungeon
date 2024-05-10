@@ -48,7 +48,6 @@ public abstract class Shaman extends Mob {
 		defenseSkill = 15;
 		
 		EXP = 8;
-		maxLvl = 16;
 		
 		loot = Generator.Category.WAND;
 		lootChance = 0.03f; //initially, see lootChance()

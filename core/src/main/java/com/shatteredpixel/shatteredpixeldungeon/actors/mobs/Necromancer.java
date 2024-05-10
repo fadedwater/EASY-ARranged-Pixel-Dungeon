@@ -54,7 +54,6 @@ public class Necromancer extends Mob {
 		defenseSkill = 14;
 		
 		EXP = 7;
-		maxLvl = 14;
 		
 		loot = new PotionOfHealing();
 		lootChance = 0.2f; //see lootChance()
@@ -371,7 +370,6 @@ public class Necromancer extends Mob {
 			spriteClass = NecroSkeletonSprite.class;
 			
 			//no loot or exp
-			maxLvl = -5;
 			
 			//20/25 health to start
 			HP = 20;

@@ -1017,10 +1017,10 @@ public abstract class Mob extends Char {
 		
 		//ring of wealth logic
 		if (Ring.getBuffedBonus(Dungeon.hero, RingOfWealth.Wealth.class) > 0) {
-			int RingLevelBonus = Math.round(RingOfWealth.BonusLevel/4);
-			int rolls = 5+RingLevelBonus;
-			if (properties.contains(Property.BOSS)) rolls = 75+15*RingLevelBonus;
-			else if (properties.contains(Property.MINIBOSS)) rolls = 25+5*RingLevelBonus;
+			int RingLevelBonus = 1+Math.round(RingOfWealth.BonusLevel(Dungeon.hero)/4);
+			int rolls = RingLevelBonus;
+			if (properties.contains(Property.BOSS)) rolls = 5*RingLevelBonus;
+			else if (properties.contains(Property.MINIBOSS)) rolls = 25*RingLevelBonus;
 			ArrayList<Item> bonus = RingOfWealth.tryForBonusDrop(Dungeon.hero, rolls);
 			if (bonus != null && !bonus.isEmpty()) {
 				for (Item b : bonus) Dungeon.level.drop(b, pos).sprite.drop();

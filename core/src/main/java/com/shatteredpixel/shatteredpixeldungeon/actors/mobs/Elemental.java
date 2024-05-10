@@ -70,7 +70,6 @@ public abstract class Elemental extends Mob {
 		defenseSkill = 20;
 		
 		EXP = 10;
-		maxLvl = 20;
 		
 		flying = true;
 	}

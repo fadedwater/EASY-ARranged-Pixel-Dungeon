@@ -55,7 +55,6 @@ public class Researcher extends Mob {
 		viewDistance = Light.DISTANCE;
 
 		EXP = 14;
-		maxLvl = 30;
 
 		loot = Generator.Category.POTION;
 		lootChance = 0.5f;
