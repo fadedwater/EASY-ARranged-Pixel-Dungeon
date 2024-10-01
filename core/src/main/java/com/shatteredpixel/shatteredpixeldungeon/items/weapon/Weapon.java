@@ -180,7 +180,7 @@ abstract public class Weapon extends KindOfWeapon {
 			}
 		}
 
-		if (	(hero.hasTalent(Talent.BLOOMING_WEAPON)
+		if ((hero.hasTalent(Talent.BLOOMING_WEAPON)
 				&& Random.Int(20) < hero.pointsInTalent(Talent.BLOOMING_WEAPON)) //Talent.BLOOMING_WEAPON
 			|| ((level.map[defender.pos] == Terrain.GRASS || level.map[defender.pos] == Terrain.HIGH_GRASS || level.map[defender.pos] == Terrain.FURROWED_GRASS)
 				&& (defender instanceof Mob && ((Mob) defender).surprisedBy(attacker))
@@ -337,7 +337,7 @@ abstract public class Weapon extends KindOfWeapon {
 			}
 		}
 		if (owner instanceof Hero && RingOfForce.fightingUnarmed((Hero) owner)) {
-			reach = 1; //brawlers stance benefits from enchantments, but not innate reach
+			reach = 1+(int)Math.floor(RingOfForce.tier(hero.STR()/4)); //brawlers stance benefits from enchantments, but not innate reach
 			if (!RingOfForce.unarmedGetsWeaponEnchantment((Hero) owner)) {
 				return reach;
 			}

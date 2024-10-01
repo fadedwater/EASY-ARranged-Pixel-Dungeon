@@ -96,7 +96,9 @@ public class AlchemistsToolkit extends Artifact {
 
 				String[] options;
 				if (maxLevels > 1){
-					options = new String[]{ Messages.get(this, "energize_1"), Messages.get(this, "energize_all", 6*maxLevels, maxLevels)};
+					options = new String[]{
+							Messages.get(this, "energize_1"), Messages.get(this, "energize_all", 6*maxLevels, maxLevels)
+					};
 				} else {
 					options = new String[]{ Messages.get(this, "energize_1")};
 				}

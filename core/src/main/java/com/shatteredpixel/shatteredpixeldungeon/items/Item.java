@@ -687,6 +687,10 @@ public class Item implements Bundlable {
 		return TIME_TO_THROW;
 	}
 
+	public void Degrade(){
+		this.level -= 1;
+	}
+
 	protected static Hero curUser = null;
 	protected static Item curItem = null;
 	protected static CellSelector.Listener thrower = new CellSelector.Listener() {

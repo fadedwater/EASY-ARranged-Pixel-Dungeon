@@ -59,7 +59,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.En
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.HeroicLeap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.AmmoBelt;
+import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
+import com.shatteredpixel.shatteredpixeldungeon.items.AnkhBlessed;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
+import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.GammaRayGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.HandMirror;
@@ -70,9 +73,17 @@ import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ChaliceOfBlood;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ExpBelt;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SkillBook;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.AnkhChain;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.ArtiChest;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.MiliVest;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.PotionBandolier;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.ScrollHolder;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
@@ -84,9 +95,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
@@ -101,6 +113,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CursedGraver;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HealBook;
@@ -336,6 +349,7 @@ public enum HeroClass {
 		Dungeon.quickslot.setSlot(0, stones);
 		new RingOfWealth().identify().collect();
 		new ExpBelt().identify().collect();
+		new PotionBandolier().collect();
 
 		if (hero.belongings.armor != null) {
 			hero.belongings.armor.affixSeal(new BrokenSeal());
@@ -361,6 +375,7 @@ public enum HeroClass {
 
 		new ScrollOfUpgrade().identify();
 		new PotionOfLiquidFlame().identify();
+		new MagicalHolster().collect();
 	}
 
 	private static void initRogue( Hero hero ) {
@@ -381,6 +396,7 @@ public enum HeroClass {
 
 		new ScrollOfMagicMapping().identify();
 		new PotionOfInvisibility().identify();
+		new ArtiChest().collect();
 	}
 
 	private static void initHuntress( Hero hero ) {
@@ -397,6 +413,7 @@ public enum HeroClass {
 
 		new PotionOfMindVision().identify();
 		new ScrollOfLullaby().identify();
+		new AnkhChain().collect();
 	}
 
 	private static void initDuelist( Hero hero ) {
@@ -415,6 +432,7 @@ public enum HeroClass {
 
 		new PotionOfStrength().identify();
 		new ScrollOfMirrorImage().identify();
+		new MiliVest().collect();
 	}
 
 	private static void initGunner( Hero hero ) {
@@ -436,6 +454,7 @@ public enum HeroClass {
 
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();
+		new MiliVest().collect();
 	}
 
 	private static void initSamurai( Hero hero ) {
@@ -449,7 +468,7 @@ public enum HeroClass {
 		new RingOfWealth().identify().collect();
 		new ExpBelt().identify().collect();
 
-		RingOfVorpal vorpal = new RingOfVorpal();
+		RingOfAccuracy vorpal = new RingOfAccuracy();
 		vorpal.start = true;
 		(hero.belongings.ring = vorpal).identify();
 		hero.belongings.ring.activate( hero );
@@ -461,6 +480,8 @@ public enum HeroClass {
 
 		new ScrollOfRetribution().identify();
 		new PotionOfStrength().identify();
+		//new SkillBook().identify().collect();
+		new ScrollHolder().collect();
 	}
 
 	private static void initPlanter( Hero hero ) {
@@ -486,6 +507,7 @@ public enum HeroClass {
 
 		new ScrollOfMirrorImage().identify();
 		new PotionOfPurity().identify();
+		new ArtiChest().collect();
 
 		//new Teleporter().collect();
 		//new MinersTool().identify().collect();
@@ -509,6 +531,7 @@ public enum HeroClass {
 
 		new ScrollOfRemoveCurse().identify();
 		new PotionOfParalyticGas().identify();
+		new MiliVest().collect();
 	}
 
 	private static void initNurse( Hero hero ) {
@@ -534,6 +557,7 @@ public enum HeroClass {
 
 		new ScrollOfMirrorImage().identify();
 		new PotionOfHealing().identify();
+		new PotionBandolier().collect();
 	}
 
 	public String title() {

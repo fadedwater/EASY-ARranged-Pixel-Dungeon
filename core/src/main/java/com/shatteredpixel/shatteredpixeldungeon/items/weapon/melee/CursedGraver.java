@@ -22,21 +22,34 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cursed;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorruption;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Random;
 
-public class  Dirk extends MeleeWeapon {
+public class CursedGraver extends MeleeWeapon {
 
 	{
-		image = ItemSpriteSheet.DIRK;
+		image = ItemSpriteSheet.CURSEDGRAVER;
 		hitSound = Assets.Sounds.HIT_STAB;
 		hitSoundPitch = 1f;
 
@@ -44,43 +57,28 @@ public class  Dirk extends MeleeWeapon {
 	}
 
 	@Override
-	public int max(int lvl) {
-		return  4*(tier+1) +    //12 base, down from 15
-				lvl*(tier+1);   //scaling unchanged
+	public int min(int lvl){
+		return 1;
 	}
-
+	@Override
+	public int max(int lvl) {
+		return  2+lvl*(tier);     //+3 per level, down from +4
+	}
 	@Override
 	public int proc( Char attacker, Char defender, int damage ) {
-		if (attacker instanceof Hero && Dungeon.hero.subClass == HeroSubClass.WEAPONMASTER) {
+		if (attacker instanceof Hero) {
 			Hero hero = (Hero)attacker;
 			Char enemy = hero.enemy();
-			if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
-				Buff.affect( defender, Bleeding.class ).set( Math.round( 1f+(damage*0.3f)) );
+			if (enemy instanceof Mob && !enemy.isInvulnerable(getClass()) && enemy.buff(Cursed.class) == null) {
+				Buff.affect( defender, Cursed.class).CurseAct();
+				hero.damage(5,this);
+				if (!hero.isAlive()) {
+					Badges.validateDeathFromFriendlyMagic();
+					Dungeon.fail( this );
+					GLog.n( Messages.get(this, "ondeath") );}
 			}
 		}
 		return super.proc( attacker, defender, damage );
-	}
-
-	
-	@Override
-	public int damageRoll(Char owner) {
-		if (owner instanceof Hero) {
-			Hero hero = (Hero)owner;
-			Char enemy = hero.enemy();
-			if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
-				//deals 67% toward max to max on surprise, instead of min to max.
-				int diff = max() - min();
-				int damage = augment.damageFactor(Random.NormalIntRange(
-						min() + Math.round(diff*0.67f),
-						max()));
-				int exStr = hero.STR() - STRReq();
-				if (exStr > 0) {
-					damage += Random.IntRange(0, exStr);
-				}
-				return damage;
-			}
-		}
-		return super.damageRoll(owner);
 	}
 
 	@Override
@@ -97,9 +95,20 @@ public class  Dirk extends MeleeWeapon {
 		return 2;
 	}
 
+
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
 		Dagger.sneakAbility(hero, target, 5, this);
 	}
+	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
+		{
+			inputs =  new Class[]{Dirk.class, MetalShard.class, ArcaneResin.class};
+			inQuantity = new int[]{1, 1, 2};
+			cost = 10;
+
+			output = CursedGraver.class;
+			outQuantity = 1;
+		}
+	}
 }

@@ -42,6 +42,7 @@ import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 public class ScrollOfAlchemy extends InventorySpell {
@@ -52,6 +53,25 @@ public class ScrollOfAlchemy extends InventorySpell {
 
         unique = true;
         bones = false;
+        stackable = false;
+    }
+    public int UpgradesContain = 0;
+    public Item UpgradesContains(int levels){
+        UpgradesContain = levels;
+        return this;
+    }
+
+    private static final String UPGRADESCONTAIN      = "upgradescontain";
+    @Override
+    public void storeInBundle(Bundle bundle) {
+        bundle.put( UPGRADESCONTAIN, UpgradesContain );
+        super.storeInBundle(bundle);
+    }
+
+    @Override
+    public void restoreFromBundle(Bundle bundle) {
+        UpgradesContain	= bundle.getInt( UPGRADESCONTAIN );
+        super.restoreFromBundle(bundle);
     }
 
     @Override
@@ -76,10 +96,14 @@ public class ScrollOfAlchemy extends InventorySpell {
             boolean wasCursed = w.cursed;
             boolean hadCursedEnchant = w.hasCurseEnchant();
             boolean hadGoodEnchant = w.hasGoodEnchant();
-            if (w.enchantment != null && Random.Int(2) < Dungeon.hero.pointsInTalent(Talent.MAGICAL_TRANSFERENCE)) {
-                w.upgrade(true);
+            if (w.enchantment != null ) {
+                for(int x = 1;x<=UpgradesContain;x+=1){
+                    w.upgrade(true);
+                }
             } else {
-                w.upgrade();
+                for(int x = 1;x<=UpgradesContain;x+=1){
+                    w.upgrade();
+            }
             }
 
             if (w.cursedKnown && hadCursedEnchant && !w.hasCurseEnchant()){
@@ -96,7 +120,8 @@ public class ScrollOfAlchemy extends InventorySpell {
         }
 
         Badges.validateItemLevelAquired( item );
-        Statistics.upgradesUsed++;
+        Statistics.upgradesUsed+=UpgradesContain;
+        UpgradesContain = 0;
         Badges.validateMageUnlock();
     }
 

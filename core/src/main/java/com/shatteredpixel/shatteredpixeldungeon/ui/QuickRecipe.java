@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
@@ -76,6 +77,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.RapidGrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableAPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableHPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
@@ -91,6 +93,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Ballista;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainFlail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChaosSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol_Energy;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CursedGraver;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CursedSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger_Energy;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DoubleGreatSword;
@@ -356,6 +359,7 @@ public class QuickRecipe extends Component {
 					ArrayList<Item> in = new ArrayList<Item>(Arrays.asList(scroll));
 					result.add(new QuickRecipe( r, in, r.sampleOutput(in)));
 				}
+				result.add(new QuickRecipe(new TimekeepersHourglass.Recipe()));
 				return result;
 			case 2:
 				result.add(new QuickRecipe( new StewedMeat.oneMeat() ));
@@ -395,6 +399,7 @@ public class QuickRecipe extends Component {
 					ArrayList<Item> in = new ArrayList<>(Arrays.asList(scroll));
 					result.add(new QuickRecipe( r, in, r.sampleOutput(in)));
 				}
+				result.add(new QuickRecipe(new ScrollOfExtract.Recipe()));
 				return result;
 			case 5:
 				r = new Bomb.EnhanceBomb();
@@ -469,6 +474,7 @@ public class QuickRecipe extends Component {
 				result.add(new QuickRecipe(new MarksmanRifle.Recipe1()));
 				result.add(new QuickRecipe(new WA2000.Recipe1()));
 				result.add(null);
+				result.add(new QuickRecipe(new CursedGraver.Recipe()));
 				result.add(null);
 				result.add(new QuickRecipe(new SpearNShield.Recipe()));
 				result.add(new QuickRecipe(new LanceNShield.Recipe()));

@@ -162,7 +162,7 @@ public class TalismanOfForesight extends Artifact {
 				float angle = Math.round(200*(float)Math.pow(0.92, dist));
 				ConeAOE cone = new ConeAOE(new Ballistica(curUser.pos, target, Ballistica.STOP_TARGET), angle);
 
-				int earnedExp = 0;
+				int earnedExp = Math.round(3 + dist*1.08f)*5;
 				boolean noticed = false;
 				for (int cell : cone.cells){
 					GameScene.effectOverFog(new CheckedCell( cell, curUser.pos ));

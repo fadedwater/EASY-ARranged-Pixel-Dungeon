@@ -18,7 +18,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -49,7 +48,7 @@ public class RingOfVorpal extends Ring {
 	public static float vorpalProc( Char target ){
 		return (float)Math.min(1, Math.pow(1.05f, getBuffedBonus(target, Vorpal.class))-1);
 	}
-	
+
 	public class Vorpal extends RingBuff {
 	}
 }

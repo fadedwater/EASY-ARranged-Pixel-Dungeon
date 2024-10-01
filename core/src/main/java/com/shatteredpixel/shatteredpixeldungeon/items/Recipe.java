@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
@@ -69,6 +70,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.RapidGrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableAPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableHPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
@@ -84,6 +86,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Ballista;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainFlail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChaosSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol_Energy;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CursedGraver;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CursedSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger_Energy;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DoubleGreatSword;
@@ -262,7 +265,8 @@ public abstract class Recipe {
 		new StoneOfEnchantment.Recipe3(),
 		new StoneOfEnchantment.Recipe4(),
 		new StoneOfEnchantment.Recipe5(),
-		new StoneOfEnchantment.Recipe6()
+		new StoneOfEnchantment.Recipe6(),
+		new ScrollOfExtract.Recipe()
 	};
 
 	private static Recipe[] twoIngredientRecipes = new Recipe[]{
@@ -317,7 +321,8 @@ public abstract class Recipe {
 		new MagicalBullet.Recipe(),
 		new RapidGrowth.Recipe(),
 		new Lighter.Recipe(),
-		new Cooler.Recipe()
+		new Cooler.Recipe(),
+		new TimekeepersHourglass.Recipe()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{
@@ -327,6 +332,7 @@ public abstract class Recipe {
 		new ElixirOfTalent.Recipe(),
 		new SpearNShield.Recipe(),
 		new LanceNShield.Recipe(),
+		new CursedGraver.Recipe(),
 		//new Scrap.Recipe(),
 		//new BrassScrap.Recipe(),
 		new APBullet.Recipe(),

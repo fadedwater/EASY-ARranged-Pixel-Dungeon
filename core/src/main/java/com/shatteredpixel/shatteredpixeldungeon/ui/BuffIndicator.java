@@ -119,6 +119,7 @@ public class BuffIndicator extends Component {
 	public static final int MONK_ENERGY = 68;
 	public static final int DUEL_COMBO  = 69;
 	public static final int DAZE        = 70;
+	public static final int CURSED      = 71;
 
 
 	//arranged buffs

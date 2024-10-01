@@ -170,14 +170,16 @@ public class MeleeWeapon extends Weapon {
 					(Buff.affect(hero, Charger.class).charges + Buff.affect(hero, Charger.class).partialCharge) < abilityChargeUse(hero, null)) {
 				GLog.w(Messages.get(this, "ability_no_charge"));
 			} else if (hero.belongings.secondWep == this &&
-					(Buff.affect(hero, Charger.class).secondCharges + Buff.affect(hero, Charger.class).secondPartialCharge) < abilityChargeUse(hero, null)) {
+					(Buff.affect(hero, Charger.class).secondCharges + Buff.affect(hero, Charger.class).secondPartialCharge) < abilityChargeUse(hero, null))
+			{
 				GLog.w(Messages.get(this, "ability_no_charge"));
-			} else {
-
+			}
+			else {
 				if (targetingPrompt() == null){
 					duelistAbility(hero, hero.pos);
 					updateQuickslot();
-				} else {
+				}
+				else {
 					usesTargeting = useTargeting();
 					GameScene.selectCell(new CellSelector.Listener() {
 						@Override

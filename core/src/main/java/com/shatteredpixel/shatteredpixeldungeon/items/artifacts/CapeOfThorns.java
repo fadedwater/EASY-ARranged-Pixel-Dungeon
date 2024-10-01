@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.artifacts;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
@@ -96,10 +97,10 @@ public class CapeOfThorns extends Artifact {
 		public int proc(int damage, Char attacker, Char defender){
 			if (!cursed) {
 				if (cooldown == 0){
-					charge += damage*(1+level()*0.05);
+					charge += damage*(1+level()*0.05)*RingOfEnergy.artifactChargeMultiplier(target);
 					if (charge >= chargeCap){
 						charge = 0;
-						cooldown = 10+level();
+						cooldown = 20 + 2 * level();
 						GLog.p( Messages.get(this, "radiating") );
 					}
 				}

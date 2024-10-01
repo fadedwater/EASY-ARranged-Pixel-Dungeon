@@ -26,7 +26,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorruption;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
@@ -35,6 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.UnholyBible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -88,7 +94,8 @@ public class ScrollOfExtract extends InventorySpell {
             //This shouldn't ever trigger
             GLog.n( Messages.get(this, "nothing") );
             curItem.collect( curUser.belongings.backpack );
-        } else {
+        }
+        else {
             if (!result.collect()){
                 Dungeon.level.drop(result, curUser.pos).sprite.drop();
             }
@@ -111,12 +118,22 @@ public class ScrollOfExtract extends InventorySpell {
 
     private static Item extractWeapon( Weapon w ) {
         Item n;
-        int level = Math.min(w.level(), 3);
-        n = new ScrollOfAlchemy().quantity(level);
+        int level = w.level();
+        n = new ScrollOfAlchemy().UpgradesContains(level);
 
         return n;
     }
+    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
+        {
+            inputs =  new Class[]{ScrollOfTransmutation.class};
+            inQuantity = new int[]{1};
+            cost = 5;
+
+            output = ScrollOfExtract.class;
+            outQuantity = 1;
+        }
+    }
     @Override
     public int value() {
         return quantity * 300;

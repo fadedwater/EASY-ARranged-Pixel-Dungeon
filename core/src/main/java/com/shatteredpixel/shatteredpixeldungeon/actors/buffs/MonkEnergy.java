@@ -184,11 +184,22 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 
 				if (hero.belongings.weapon() instanceof MeleeWeapon
 						&& hero.buff(RingOfForce.BrawlersStance.class) == null){
-					if (((MeleeWeapon) hero.belongings.weapon()).tier <= 1 && points >= 3){
+					if (((MeleeWeapon) hero.belongings.weapon()).tier <= 1 && points >= 3) {
 						enGainMulti += 1.20f;
 					} else if (((MeleeWeapon) hero.belongings.weapon()).tier <= 2 && points >= 2){
 						enGainMulti += 0.80f;
 					} else if (((MeleeWeapon) hero.belongings.weapon()).tier <= 3 && points >= 1){
+						enGainMulti += 0.40f;
+					}
+				}
+
+				if (hero.belongings.weapon() == null
+						|| hero.buff(RingOfForce.BrawlersStance.class) != null){
+					if (points >= 3) {
+						enGainMulti += 1.20f;
+					} else if (points >= 2){
+						enGainMulti += 0.80f;
+					} else if (points >= 1){
 						enGainMulti += 0.40f;
 					}
 				}

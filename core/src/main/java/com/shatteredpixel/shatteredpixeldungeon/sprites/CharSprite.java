@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.ShieldHalo;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.TorchHalo;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.CurseParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SnowParticle;
@@ -82,7 +83,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected float shadowOffset    = 0.25f;
 
 	public enum State {
-		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, HEALING, SHIELDED, HEARTS
+		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, HEALING, SHIELDED, HEARTS, CURSED
 	}
 	private int stunStates = 0;
 	
@@ -103,6 +104,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected Emitter levitation;
 	protected Emitter healing;
 	protected Emitter hearts;
+	protected Emitter cursed;
 	
 	protected IceBlock iceBlock;
 	protected DarkBlock darkBlock;
@@ -408,6 +410,13 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 				hearts = emitter();
 				hearts.pour(Speck.factory(Speck.HEART), 0.5f);
 				break;
+			case CURSED:
+				cursed = emitter();
+				cursed.pour( CurseParticle.FACTORY, 0.15f );
+				if (visible) {
+					Sample.INSTANCE.play( Assets.Sounds.CURSED );
+				}
+				break;
 		}
 	}
 	
@@ -481,6 +490,12 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 					hearts = null;
 				}
 				break;
+				case CURSED:
+				if (cursed != null) {
+					cursed.on = false;
+					cursed = null;
+				}
+				break;
 		}
 	}
 
@@ -522,6 +537,9 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 		
 		if (burning != null) {
 			burning.visible = visible;
+		}
+		if (cursed != null) {
+			cursed.visible = visible;
 		}
 		if (levitation != null) {
 			levitation.visible = visible;

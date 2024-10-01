@@ -7,12 +7,10 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 
 public class ExpBelt extends Artifact{
-    private static  final  int BELT_UPGRADE_SCALE = 50;
+    private static  final  int BELT_UPGRADE_SCALE = 30;
 
     {
         image = ItemSpriteSheet.ARTIFACT_EXPBELT;
-
-        levelCap = 10;
     }
     @Override
     public String desc() {
@@ -26,6 +24,14 @@ public class ExpBelt extends Artifact{
                 desc += Messages.get(this, "desc_equipped", level()*BELT_UPGRADE_SCALE - exp);
         }
         return desc;
+    }
+    @Override
+    public int visiblyUpgraded() {
+        return levelKnown ? level(): 0;
+    }
+    @Override
+    public void transferUpgrade(int transferLvl) {
+        upgrade(transferLvl);
     }
     @Override
     protected ArtifactBuff passiveBuff() {

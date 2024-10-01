@@ -45,7 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVorpal;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Disintegration;
@@ -353,7 +353,7 @@ abstract public class  KindOfWeapon extends EquipableItem {
 			critChance = 100;
 		}
 
-		critChance += Math.round(100*RingOfVorpal.vorpalProc( hero ));
+		critChance += Math.round(100* RingOfAccuracy.vorpalProc( hero ));
 
 		critChance = Math.min(critChance, 100);
 

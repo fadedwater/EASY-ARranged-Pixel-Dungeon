@@ -71,9 +71,11 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Wound;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ExpBelt;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.SmallRation;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth.Wealth;
@@ -804,6 +806,16 @@ public abstract class Mob extends Char {
 				}
 
 				if (exp > 0) {
+					float expMod = 1f;
+					ExpBelt.ExpObtain buff = Dungeon.hero.buff(ExpBelt.ExpObtain.class);
+					if (buff != null){
+						expMod *= buff.itemLevel()*0.8+1;
+						if (buff.isCursed()){
+							expMod = 0f;
+						}
+					}
+					exp *= expMod;
+					if (buff != null) buff.obtain(Math.round(exp));
 					Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(this, "exp", exp));
 				}
 				Dungeon.hero.earnExp(exp, getClass());
@@ -1017,7 +1029,7 @@ public abstract class Mob extends Char {
 		
 		//ring of wealth logic
 		if (Ring.getBuffedBonus(Dungeon.hero, RingOfWealth.Wealth.class) > 0) {
-			int RingLevelBonus = 1+Math.round(RingOfWealth.BonusLevel(Dungeon.hero)/4);
+			int RingLevelBonus = 1+Math.round(RingOfWealth.BonusLevel(Dungeon.hero)/3*Dungeon.depth/5);
 			int rolls = RingLevelBonus;
 			if (properties.contains(Property.BOSS)) rolls = 5*RingLevelBonus;
 			else if (properties.contains(Property.MINIBOSS)) rolls = 25*RingLevelBonus;

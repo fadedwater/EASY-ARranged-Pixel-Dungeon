@@ -180,10 +180,10 @@ public class Cross extends MissileWeapon {
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 		{
-			inputs =  new Class[]{Bible.class, HolyBomb.class, HeavyBoomerang.class};
-			inQuantity = new int[]{1, 1, 1};
+			inputs =  new Class[]{HolyBomb.class, HeavyBoomerang.class};
+			inQuantity = new int[]{1, 1};
 
-			cost = 20;
+			cost = 30;
 
 			output = Cross.class;
 			outQuantity = 1;

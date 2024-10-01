@@ -21,15 +21,27 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
@@ -38,6 +50,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Random;
 
 public class Bible extends MeleeWeapon {
 
@@ -51,30 +64,43 @@ public class Bible extends MeleeWeapon {
 
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
-		if (attacker.buff(Bless.class) == null) {
-			Buff.affect( attacker, Bless.class, 2f);
-		} else if (attacker.buff(PotionOfCleansing.Cleanse.class) == null) {
-			for (Buff b : attacker.buffs()){
-				if (b.type == Buff.buffType.NEGATIVE
-						&& !(b instanceof AllyBuff)
-						&& !(b instanceof LostInventory)){
-					b.detach();
+		Buff.affect( defender, Bleeding.class ).set(Random.NormalIntRange(max()/2, max()));
+		switch (Random.Int(4)) {
+			default:
+				Buff.affect( attacker, Bless.class, 3f );
+				break;
+			case 1:
+				for (Buff b : attacker.buffs()){
+					if (b.type == Buff.buffType.NEGATIVE
+							&& !(b instanceof AllyBuff)
+							&& !(b instanceof LostInventory)){
+						b.detach();
+					}
 				}
-			}
-			Buff.affect( attacker, PotionOfCleansing.Cleanse.class, 2f);
-		} else if (attacker.buff(Adrenaline.class) == null) {
-			Buff.affect( attacker, Adrenaline.class, 2f);
-		} else {
-			int healAmt = 1;
-			attacker.heal(healAmt);
+				Buff.affect( attacker, PotionOfCleansing.Cleanse.class, 3f );
+				break;
+			case 2:
+				Buff.affect( attacker, Adrenaline.class, 3f );
+				break;
+			case 3:
+				int healamt = 1;
+				if (Random.Int(10) <= 3){
+					healamt += Math.max(Math.round(0.3f*damage), 1);
+				}
+				attacker.heal(healamt);
+				break;
 		}
 		return super.proc( attacker, defender, damage );
 	}
 
 	@Override
+	public int min(int lvl){
+		return 3+lvl;
+	}
+	@Override
 	public int max(int lvl) {
-		return  3*(tier+1) +    //12 base, down from 20
-				lvl*(tier);     //+3 per level, down from +4
+		return  (tier+1) +    //12 base, down from 20
+				lvl*(tier+1);     //+3 per level, down from +4
 	}
 
 	@Override

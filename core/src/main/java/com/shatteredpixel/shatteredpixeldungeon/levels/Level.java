@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dong;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sheathing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSight;
@@ -945,8 +946,7 @@ public abstract class Level implements Bundlable {
 							 new SpellBook_Lightning(),
 							 new SpellBook_Regrowth(),
 							 new SpellBook_Transfusion(),
-							 new SpellBook_Prismatic(),
-							 new Bible())
+							 new SpellBook_Prismatic())
 		);
 		int terr = map[pos];
 		if (terr == Terrain.EMPTY || terr == Terrain.EMPTY_DECO
@@ -1387,6 +1387,9 @@ public abstract class Level implements Bundlable {
 					viewDistBonus += 0.125f*((Hero) c).pointsInTalent(Talent.ON_ALERT);
 				}
 				viewDist *= viewDistBonus;
+			}
+			if (Dungeon.hero.buffs(TalismanOfForesight.Foresight.class) != null &&Dungeon.hero.buffs(MagicImmune.class) == null){
+				viewDist += Dungeon.hero.buff( TalismanOfForesight.Foresight.class).itemLevel();
 			}
 			
 			ShadowCaster.castShadow( cx, cy, fieldOfView, blocking, viewDist );

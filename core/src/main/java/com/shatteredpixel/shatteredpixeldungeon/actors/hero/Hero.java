@@ -224,7 +224,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfTenacity;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVampire;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
@@ -380,7 +379,7 @@ public class Hero extends Char {
 		alignment = Alignment.ALLY;
 	}
 	
-	public static final int MAX_LEVEL = 100;
+	public static final int MAX_LEVEL = Integer.MAX_VALUE;
 
 	public static final int STARTING_STR = 10;
 	
@@ -394,7 +393,7 @@ public class Hero extends Char {
 	public ArrayList<LinkedHashMap<Talent, Integer>> talents = new ArrayList<>();
 	public LinkedHashMap<Talent, Talent> metamorphedTalents = new LinkedHashMap<>();
 	
-	private int attackSkill = 10;
+	private int attackSkill = 20;
 	private int defenseSkill = 5;
 
 	public boolean ready = false;
@@ -634,9 +633,10 @@ public class Hero extends Char {
 				|| (tier == 3 && subClass == HeroSubClass.NONE)
 				|| (tier == 4 && armorAbility == null)) {
 			return 0;
-		} else if (buff(PotionOfDivineInspiration.DivineInspirationTracker.class) != null
-					&& buff(PotionOfDivineInspiration.DivineInspirationTracker.class).isBoosted(tier)) {
-			bonusPoints += 2;
+		}
+		else if (buff(PotionOfDivineInspiration.DivineInspirationTracker.class) != null
+					&& buff(PotionOfDivineInspiration.DivineInspirationTracker.class).isBoosted(tier) != 0) {
+			bonusPoints += 2 * buff(PotionOfDivineInspiration.DivineInspirationTracker.class).isBoosted(tier);
 		}
 		if (tier == 3 && buff(ElixirOfTalent.BonusTalentTracker.class) != null) {
 			bonusPoints += 4;
@@ -1586,6 +1586,7 @@ public class Hero extends Char {
 						}
 
 						ready();
+						break;
 					}
 				}
 				if (GonnaSpendTime){
@@ -2233,6 +2234,10 @@ public class Hero extends Char {
 			Berserk berserk = Buff.affect(this, Berserk.class);
 			berserk.damage(damage);
 		}
+		CapeOfThorns.Thorns thorns = buff( CapeOfThorns.Thorns.class );
+		if (thorns != null) {
+			damage = thorns.proc(damage, enemy,  this);
+		}
 
 		if (belongings.armor() != null) {
 			damage = belongings.armor().proc( enemy, this, damage );
@@ -2317,7 +2322,7 @@ public class Hero extends Char {
 			damage *= 1-0.1f*hero.pointsInTalent(Talent.FAITH);
 		}
 
-		if (hero.hasTalent(Talent.PROTECTIVE_HEAL) && hero.HP < hero.HT*(0.1+0.15*hero.pointsInTalent(Talent.PROTECTIVE_HEAL)) && !hero.buff(Hunger.class).isStarving()) {
+		if (hero.hasTalent(Talent.PROTECTIVE_HEAL) && hero.HP < hero.HT*(0.1+0.15*hero.pointsInTalent(Talent.PROTECTIVE_HEAL))) {
 			hero.heal(1);
 		}
 
@@ -2339,7 +2344,6 @@ public class Hero extends Char {
 			interrupt();
 			resting = false;
 		}
-
 		if (this.buff(Drowsy.class) != null){
 			Buff.detach(this, Drowsy.class);
 			GLog.w( Messages.get(this, "pain_resist") );
@@ -2809,20 +2813,7 @@ public class Hero extends Char {
 	
 	public void earnExp( int exp, Class source ) {
 
-		float expMod = 1f;
-		ExpBelt.ExpObtain buff = Dungeon.hero.buff(ExpBelt.ExpObtain.class);
-		if (buff != null && source != PotionOfExperience.class){
-			expMod += (buff.itemLevel()+1)* (buff.itemLevel() > 100 ? 0.8f: 0.2f);
-			if (buff.isCursed()){
-				expMod = 0f;
-			}
-		}
-		exp *= expMod;
-
 		this.exp += exp;
-
-		if (exp > 0) Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(Mob.class, "exp", exp));
-		if (buff != null) buff.obtain(Math.round(exp));
 
 		float percent = exp/(float)maxExp();
 
@@ -2871,7 +2862,7 @@ public class Hero extends Char {
 				}
 				
 				updateHT( true );
-				attackSkill++;
+				attackSkill += 2;
 				defenseSkill++;
 
 			} else {
@@ -2899,7 +2890,7 @@ public class Hero extends Char {
 					WndHero.lastIdx = 1;
 				}
 				else{
-					if (lvl/5 == Math.round(lvl/5)){
+					if (lvl%5==0){
 						STR += 1;
 						GLog.newLine();
 						GLog.p( Messages.get(this, "new_strength") );
@@ -2918,7 +2909,7 @@ public class Hero extends Char {
 	}
 	
 	public static int maxExp( int lvl ){
-		return 5 * lvl + lvl * lvl;
+		return 10 + 3 * lvl + lvl * lvl / 2;
 	}
 	
 	public boolean isStarving() {
@@ -3521,9 +3512,9 @@ public class Hero extends Char {
 
 				}
 			}
-			if (RingOfVorpal.getBuffedBonus(this, RingOfVorpal.Vorpal.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
-				if (Random.Int(20) < RingOfVorpal.getBuffedBonus(this, RingOfVorpal.Vorpal.class)) {
-					Buff.affect(enemy, Bleeding.class).set(Math.round(RingOfVorpal.getBuffedBonus(this, RingOfVorpal.Vorpal.class)/2f));
+			if (RingOfAccuracy.getBuffedBonus(this, RingOfAccuracy.Accuracy.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Int(20) < RingOfAccuracy.getBuffedBonus(this, RingOfAccuracy.Accuracy.class)) {
+					Buff.affect(enemy, Bleeding.class).set(Math.round(RingOfAccuracy.getBuffedBonus(this, RingOfAccuracy.Accuracy.class)/2f));
 				}
 			}
 			if (RingOfWealth.getBuffedBonus(this, RingOfWealth.Wealth.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {

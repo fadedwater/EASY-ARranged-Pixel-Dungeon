@@ -37,8 +37,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.MailArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ScaleArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.AnkhChain;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.ArtiChest;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.MiliVest;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.PotionBandolier;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.ScrollHolder;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
@@ -198,6 +201,17 @@ public class ShopRoom extends SpecialRoom {
 		if (bag != null) {
 			itemsToSpawn.add(bag);
 		}
+		Bag bagsec = ChooseBag(Dungeon.hero.belongings);
+		if (bagsec != null
+			&&bagsec != bag) {
+			itemsToSpawn.add(bagsec);
+		}
+		Bag bagthd = ChooseBag(Dungeon.hero.belongings);
+		if (bagthd != null
+				&&bagthd != bag
+				&&bagthd != bagsec) {
+			itemsToSpawn.add(bagthd);
+		}
 
 		itemsToSpawn.add( new PotionOfHealing() );
 		itemsToSpawn.add( Generator.randomUsingDefaults( Generator.Category.POTION ) );
@@ -296,7 +310,9 @@ public class ShopRoom extends SpecialRoom {
 		if (!Dungeon.LimitedDrops.SCROLL_HOLDER.dropped()) bags.put(new ScrollHolder(), 0);
 		if (!Dungeon.LimitedDrops.POTION_BANDOLIER.dropped()) bags.put(new PotionBandolier(), 0);
 		if (!Dungeon.LimitedDrops.MAGICAL_HOLSTER.dropped()) bags.put(new MagicalHolster(), 0);
-
+		if (!Dungeon.LimitedDrops.ANKH_CHAIN.dropped()) bags.put(new AnkhChain(), 0);
+		if (!Dungeon.LimitedDrops.MILI_VEST.dropped()) bags.put(new MiliVest(), 0);
+		if (!Dungeon.LimitedDrops.ARTI_CHEST.dropped()) bags.put(new ArtiChest(), 0);
 		if (bags.isEmpty()) return null;
 
 		//count up items in the main bag
@@ -326,8 +342,13 @@ public class ShopRoom extends SpecialRoom {
 			Dungeon.LimitedDrops.POTION_BANDOLIER.drop();
 		} else if (bestBag instanceof MagicalHolster){
 			Dungeon.LimitedDrops.MAGICAL_HOLSTER.drop();
+		}else if (bestBag instanceof AnkhChain){
+			Dungeon.LimitedDrops.ANKH_CHAIN.drop();
+		}else if (bestBag instanceof MiliVest){
+			Dungeon.LimitedDrops.MILI_VEST.drop();
+		} else if (bestBag instanceof ArtiChest){
+			Dungeon.LimitedDrops.ARTI_CHEST.drop();
 		}
-
 		return bestBag;
 
 	}

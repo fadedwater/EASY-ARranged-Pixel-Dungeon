@@ -67,11 +67,12 @@ public class PotionOfDivineInspiration extends ExoticPotion {
 		DivineInspirationTracker tracker = hero.buff(DivineInspirationTracker.class);
 
 		if (tracker != null){
-			boolean allBoosted = true;
+			boolean allBoosted = false;
 			for (int i = 1; i <= 4; i++){
-				if (tracker.isBoosted(i)){
-					enabled[i] = false;
-				} else {
+				if (tracker.isBoosted(i) != 0){
+					enabled[i] = true;
+				}
+				else {
 					allBoosted = false;
 				}
 			}
@@ -158,7 +159,7 @@ public class PotionOfDivineInspiration extends ExoticPotion {
 			revivePersists = true;
 		}
 
-		private boolean[] boostedTiers = new boolean[5];
+		private int[] boostedTiers = new int[5];
 
 		private static final String BOOSTED_TIERS = "boosted_tiers";
 
@@ -171,14 +172,14 @@ public class PotionOfDivineInspiration extends ExoticPotion {
 		@Override
 		public void restoreFromBundle(Bundle bundle) {
 			super.restoreFromBundle(bundle);
-			boostedTiers = bundle.getBooleanArray(BOOSTED_TIERS);
+			boostedTiers = bundle.getIntArray(BOOSTED_TIERS);
 		}
 
 		public void setBoosted( int tier ){
-			boostedTiers[tier] = true;
+			boostedTiers[tier] = boostedTiers[tier] + 1;
 		}
 
-		public boolean isBoosted( int tier ){
+		public int isBoosted( int tier ){
 			return boostedTiers[tier];
 		}
 

@@ -220,8 +220,7 @@ public class WndHeroInfo extends WndTabbed {
 				case SAMURAI:
 					icons = new Image[]{new ItemSprite(ItemSpriteSheet.RING_RUBY),
 							new ItemSprite(ItemSpriteSheet.SHEATH),
-							new ItemSprite(ItemSpriteSheet.WORN_KATANA),
-							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
+							new ItemSprite(ItemSpriteSheet.WORN_KATANA)};
 					break;
 				case PLANTER:
 					icons = new Image[]{new ItemSprite(ItemSpriteSheet.ARTIFACT_GREAVES),
@@ -237,6 +236,7 @@ public class WndHeroInfo extends WndTabbed {
 					break;
 				case NURSE:
 					icons = new Image[]{new ItemSprite(ItemSpriteSheet.GAMMA_RAY_GUN),
+							new ItemSprite(ItemSpriteSheet.ANKH),
 							new ItemSprite(ItemSpriteSheet.HEAL_BOOK),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;

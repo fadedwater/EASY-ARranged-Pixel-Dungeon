@@ -34,10 +34,7 @@ import com.watabou.utils.Bundle;
 
 import java.util.ArrayList;
 
-public class Ankh extends Item {
-
-	public static final String AC_BLESS = "BLESS";
-
+public class AnkhBlessed extends Ankh {
 	{
 		image = ItemSpriteSheet.ANKH;
 		stackable = true;
@@ -47,7 +44,7 @@ public class Ankh extends Item {
 		bones = true;
 	}
 
-	private boolean blessed = false;
+	private boolean blessed = true;
 	
 	@Override
 	public boolean isUpgradable() {
@@ -62,44 +59,22 @@ public class Ankh extends Item {
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions(hero);
-		Waterskin waterskin = hero.belongings.getItem(Waterskin.class);
-		if (waterskin != null && waterskin.isFull())
-			actions.add( AC_BLESS );
 		return actions;
 	}
-
 	@Override
-	public void execute( final Hero hero, String action ) {
-
-		super.execute( hero, action );
-
-		if (action.equals( AC_BLESS )) {
-
-			Waterskin waterskin = hero.belongings.getItem(Waterskin.class);
-			if (waterskin != null){
-				this.detach(hero.belongings.backpack);
-				new AnkhBlessed().collect();
-				waterskin.empty();
-				GLog.p( Messages.get(this, "bless") );
-				hero.spend( 1f );
-				hero.busy();
-
-
-				Sample.INSTANCE.play( Assets.Sounds.DRINK );
-				CellEmitter.get(hero.pos).start(Speck.factory(Speck.LIGHT), 0.2f, 3);
-				hero.sprite.operate( hero.pos );
-			}
-		}
+	public String desc() {
+			return Messages.get(this, "desc_blessed");
 	}
 
 	public boolean isBlessed(){
-		return false;
+		return true;
 	}
+
 	private static final Glowing WHITE = new Glowing( 0xFFFFCC );
 
 	@Override
 	public Glowing glowing() {
-		return isBlessed() ? WHITE : null;
+		return WHITE;
 	}
 
 	private static final String BLESSED = "blessed";

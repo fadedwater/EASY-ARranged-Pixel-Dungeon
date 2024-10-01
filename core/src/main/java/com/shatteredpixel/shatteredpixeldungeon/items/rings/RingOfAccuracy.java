@@ -26,6 +26,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
+import java.text.DecimalFormat;
+
 public class RingOfAccuracy extends Ring {
 
 	{
@@ -35,14 +37,17 @@ public class RingOfAccuracy extends Ring {
 	public String statsInfo() {
 		if (isIdentified()){
 			String info = Messages.get(this, "stats",
-					Messages.decimalFormat("#.##", 100f * (Math.pow(1.3f, soloBuffedBonus()) - 1f)));
+					Messages.decimalFormat("#.##", 100f * (Math.pow(1.3f, soloBuffedBonus()) - 1f)),
+					new DecimalFormat("#").format(Math.min(100f, 100f * (Math.pow(1.05f, soloBuffedBonus()) - 1f))));
 			if (isEquipped(Dungeon.hero) && soloBuffedBonus() != combinedBuffedBonus(Dungeon.hero, Accuracy.class)){
 				info += "\n\n" + Messages.get(this, "combined_stats",
-						Messages.decimalFormat("#.##", 100f * (Math.pow(1.3f, combinedBuffedBonus(Dungeon.hero, Accuracy.class)) - 1f)));
+						Messages.decimalFormat("#.##", 100f * (Math.pow(1.3f, combinedBuffedBonus(Dungeon.hero, Accuracy.class)) - 1f)),
+						new DecimalFormat("#").format(Math.min(100f, 100f * (Math.pow(1.05f, soloBuffedBonus()) - 1f))));
 			}
 			return info;
 		} else {
-			return Messages.get(this, "typical_stats", Messages.decimalFormat("#.##", 30f));
+			return Messages.get(this, "typical_stats", Messages.decimalFormat("#.##", 30f),
+					new DecimalFormat("#").format(Math.min(100f, 100f * (Math.pow(1.05f, soloBuffedBonus()) - 1f))));
 		}
 	}
 	
@@ -54,7 +59,10 @@ public class RingOfAccuracy extends Ring {
 	public static float accuracyMultiplier( Char target ){
 		return (float)Math.pow(1.3f, getBuffedBonus(target, Accuracy.class));
 	}
-	
+	public static float vorpalProc( Char target ){
+		return (float)Math.min(1, Math.pow(1.05f, getBuffedBonus(target, Accuracy.class))-1);
+	}
+
 	public class Accuracy extends RingBuff {
 	}
 }

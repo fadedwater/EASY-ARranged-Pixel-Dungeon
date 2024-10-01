@@ -98,6 +98,9 @@ public enum Icons {
 	SCROLL_HOLDER,
 	WAND_HOLSTER,
 	POTION_BANDOLIER,
+	ANKH_CHAIN,
+	MILI_VEST,
+	ARTICHEST,
 
 	//icons that appear in the game itself, variable spacing
 	TARGET,
@@ -328,6 +331,15 @@ public enum Icons {
 				break;
 			case POTION_BANDOLIER:
 				icon.frame( icon.texture.uvRectBySize( 241, 64, 10, 10 ) );
+				break;
+			case ANKH_CHAIN:
+				icon.frame( icon.texture.uvRectBySize( 201, 74, 10, 10 ) );
+				break;
+			case MILI_VEST:
+				icon.frame( icon.texture.uvRectBySize( 211, 74, 10, 10 ) );
+				break;
+			case ARTICHEST:
+				icon.frame( icon.texture.uvRectBySize( 221, 74, 10, 10 ) );
 				break;
 
 			case TARGET:

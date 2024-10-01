@@ -54,7 +54,6 @@ public class Guidebook extends Item {
 		GLog.p(Messages.get(GameScene.class, "tutorial_guidebook"));
 		GameScene.flashForDocument(Document.ADVENTURERS_GUIDE, Document.GUIDE_INTRO);
 		Sample.INSTANCE.play( Assets.Sounds.ITEM );
-		hero.spendAndNext( TIME_TO_PICK_UP );
 		return true;
 	}
 

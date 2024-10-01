@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
+import com.shatteredpixel.shatteredpixeldungeon.items.AnkhBlessed;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Honeypot;
@@ -161,12 +162,17 @@ public class RingOfWealth extends Ring {
 					} else {
 						drops.add(scl);
 					}
-				} else {
-					if (Random.Float(0,1) <= 0.5) {
+				}
+				else {
+					float point = Random.Float(0,1);
+					if (point <= 0.2) {
 						drops.add(i);
 					}
-					else{
+					else if (point <= 0.8){
 						drops.add(scl);
+					}
+					else{
+						drops.add(new AnkhBlessed());
 					}
 				}
 				dropsToEquip = Random.NormalIntRange(5, 10);
@@ -256,7 +262,11 @@ public class RingOfWealth extends Ring {
 					else {
 						if (Random.Int(4) == 0) {
 							return new ScrollOfUpgrade();
-						} else {
+						}
+						else if (Random.Int(5) == 0){
+							return new AnkhBlessed();
+						}
+						else {
 							return Generator.randomUsingDefaults(Generator.Category.SCROLL);
 						}
 					}
@@ -296,7 +306,11 @@ public class RingOfWealth extends Ring {
 					} else {
 						if (Random.Int(2) == 0) {
 							return new ScrollOfUpgrade();
-						} else {
+						}
+						else if (Random.Int(4) == 0){
+							return new AnkhBlessed();
+						}
+						else {
 							return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
 						}
 					}
@@ -304,6 +318,9 @@ public class RingOfWealth extends Ring {
 				else {
 					if (Random.Int(3) == 0){
 						return new ScrollOfUpgrade();
+					}
+					else if (Random.Int(8) == 0){
+						return new AnkhBlessed();
 					}
 					else{
 						return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
@@ -322,7 +339,7 @@ public class RingOfWealth extends Ring {
 	private static Item genHighValueConsumable(){
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			if (Dungeon.isChallenged(Challenges.NO_SCROLLS)) {
-				switch (Random.Int(10)){
+				switch (Random.Int(11)){
 					case 0: case 1: default:
 						Item i = genMidValueConsumable();
 						if (i instanceof Bomb){
@@ -340,9 +357,11 @@ public class RingOfWealth extends Ring {
 						return new ScrollOfUpgrade();
 					case 9:
 						return new ScrollOfEnchantment();
+					case 10:
+						return Generator.randomMissile();
 				}
 			} else {
-				switch (Random.Int(5)){
+				switch (Random.Int(6)){
 					case 0: default:
 						Item i = genMidValueConsumable();
 						if (i instanceof Bomb){
@@ -358,6 +377,8 @@ public class RingOfWealth extends Ring {
 						return new ScrollOfTransmutation();
 					case 4:
 						return new ScrollOfUpgrade();
+					case 5:
+						return Generator.randomMissile();
 				}
 			}
 		} 
@@ -418,7 +439,7 @@ public class RingOfWealth extends Ring {
 			}
 		}
 		result.cursed = false;
-		result.cursedKnown = true;
+		result.identify();
 		if (result.level() >= 2 || Dungeon.isChallenged(Challenges.GAMBLER)) {
 			latestDropTier = 4;
 		} else {

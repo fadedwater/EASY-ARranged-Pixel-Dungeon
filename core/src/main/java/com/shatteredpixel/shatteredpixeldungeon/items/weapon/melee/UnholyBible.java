@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
@@ -59,6 +60,7 @@ public class UnholyBible extends MeleeWeapon {
 
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
+		Buff.affect( defender, Bleeding.class ).set(Random.NormalIntRange(max()/2, max()));
 		switch (Random.Int(15)) {
 			case 0: case 1: default:
 				Buff.affect( defender, Weakness.class, 3f );
@@ -94,12 +96,12 @@ public class UnholyBible extends MeleeWeapon {
 		return damage;
 	}
 
+
 	@Override
 	public int max(int lvl) {
-		return  3*(tier) +    		//12 base
-				lvl*(tier-1);     	//+3 per level
+		return  12 +    //12 base, down from 20
+				lvl*(tier);     //+3 per level, down from +4
 	}
-
 	@Override
 	protected int baseChargeUse(Hero hero, Char target){
 		return 2;
@@ -145,7 +147,6 @@ public class UnholyBible extends MeleeWeapon {
 		{
 			inputs =  new Class[]{Bible.class, WandOfCorruption.class, ArcaneResin.class};
 			inQuantity = new int[]{1, 1, 2};
-
 			cost = 10;
 
 			output = UnholyBible.class;

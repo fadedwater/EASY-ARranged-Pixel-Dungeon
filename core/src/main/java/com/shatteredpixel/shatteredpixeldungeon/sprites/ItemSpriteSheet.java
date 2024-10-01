@@ -230,6 +230,7 @@ public class ItemSpriteSheet {
 	public static final int QUARTERSTAFF    = WEP_TIER2+3;
 	public static final int DIRK            = WEP_TIER2+4;
 	public static final int SICKLE          = WEP_TIER2+5;
+	public static final int CURSEDGRAVER     = WEP_TIER2+6;
 	static{
 		assignItemRect(SHORTSWORD,      13, 13);
 		assignItemRect(HAND_AXE,        12, 14);
@@ -237,6 +238,7 @@ public class ItemSpriteSheet {
 		assignItemRect(QUARTERSTAFF,    16, 16);
 		assignItemRect(DIRK,            13, 14);
 		assignItemRect(SICKLE,          15, 15);
+		assignItemRect(CURSEDGRAVER,          12,  11);
 	}
 
 	private static final int WEP_TIER3      =                               xy(1, 8);   //8 slots
@@ -471,6 +473,7 @@ public class ItemSpriteSheet {
 	public static final int ARTIFACT_ROSE2      = ARTIFACTS+21;
 	public static final int ARTIFACT_ROSE3      = ARTIFACTS+22;
 	public static final int ARTIFACT_EXPBELT	= ARTIFACTS+23;
+	public static final int ARTIFACT_SKILLBOOK	= ARTIFACTS+24;
 	static{
 		assignItemRect(ARTIFACT_CLOAK,      9,  15);
 		assignItemRect(ARTIFACT_ARMBAND,    16, 13);
@@ -496,6 +499,7 @@ public class ItemSpriteSheet {
 		assignItemRect(ARTIFACT_ROSE2,      14, 14);
 		assignItemRect(ARTIFACT_ROSE3,      14, 14);
 		assignItemRect(ARTIFACT_EXPBELT,	16, 13);
+		assignItemRect(ARTIFACT_SKILLBOOK,	15, 15);
 	}
 
 	private static final int SCROLLS        =                               xy(1, 19);  //16 slots
@@ -796,6 +800,9 @@ public class ItemSpriteSheet {
 	public static final int BANDOLIER   = BAGS+4;
 	public static final int HOLSTER     = BAGS+5;
 	public static final int VIAL        = BAGS+6;
+	public static final int ANKH_CHAIN  = BAGS+7;
+	public static final int MILI_VEST  = BAGS+8;
+	public static final int ARTI_CHEST  = BAGS+9;
 	static{
 		assignItemRect(WATERSKIN,   16, 14);
 		assignItemRect(BACKPACK,    16, 16);
@@ -804,6 +811,9 @@ public class ItemSpriteSheet {
 		assignItemRect(BANDOLIER,   15, 16);
 		assignItemRect(HOLSTER,     15, 16);
 		assignItemRect(VIAL,        12, 12);
+		assignItemRect(ANKH_CHAIN,       14, 16);
+		assignItemRect(MILI_VEST,       16, 16);
+		assignItemRect(ARTI_CHEST,       16, 13);
 	}
 
 	private static final int DOCUMENTS  =                                   xy(1, 32);  //16 slots
@@ -984,7 +994,7 @@ public class ItemSpriteSheet {
 		assignItemRect(POISON_SCIMITAR,   	13, 16);
 		assignItemRect(ELECTRO_SCIMITAR,   	13, 16);
 		assignItemRect(CURSED_SWORD,   		14, 14);
-		assignItemRect(UNHOLY_BIBLE, 	  	13, 16);
+		assignItemRect(UNHOLY_BIBLE, 	  	12, 12);
 		assignItemRect(TACTICAL_SHIELD, 	12, 16);
 		assignItemRect(BALLISTA, 	  		16, 16);
 		assignItemRect(FORCE_GLOVE, 	  	13, 15);
@@ -1146,7 +1156,7 @@ public class ItemSpriteSheet {
 	public static final int BIBLE     		= ARRANGED_WEP_TIER3+0;
 	public static final int RUNICDAGGER     = ARRANGED_WEP_TIER3+1;
 	static{
-		assignItemRect(BIBLE, 		13, 16);
+		assignItemRect(BIBLE, 		12, 12);
 		assignItemRect(RUNICDAGGER, 13, 14);
 	}
 
